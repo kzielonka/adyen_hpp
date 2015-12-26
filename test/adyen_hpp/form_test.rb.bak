@@ -1,0 +1,59 @@
+require 'minitest/autorun'
+require 'adyen_hpp'
+
+class AdyenHppFormTest < Minitest::Test
+  class FormBuilder
+    def initialize
+      @fields = {}
+    end
+    
+    attr_reader :fields
+
+    def add_field field, value
+      @fields[filed] = value
+    end
+
+    def [] key
+      @fields[key]
+    end
+
+    def keys
+      @fields.keys
+    end
+  end
+
+  def test_setting_not_existing_field
+    form = AdyenHpp::Form.new
+    assert_raises AdyenHpp::Errors::InvalidFieldName do
+      form[:not_existing_field] = 5
+    end
+  end
+
+  def test_setting_not_exsiting_field_while_initialization
+    assert_raises AdyneHpp::Errors::InvalidFieldName do
+      AdyenHpp::Form.new not_existing_field: 5
+    end
+  end
+
+  def adfads
+    sample_params = {
+      merchant_account: 'TestMerchant',
+      currency_code: 'EUR',
+      payment_amount: '199',
+      session_validity: '2015-06-25T10:31:06Z',
+      ship_before_date: '2015-07-01',
+      shopper_locale: 'en_GB',
+      merchant_reference: 'SKINTEST-1435226439255',
+      skin_code: 'X7hsNDWp'
+    }
+    @form_builder = FormBuilder.new
+    form = AdyenHpp::Form.new({}, @form_builder).generate 
+    form.merchant_account = 'TestMerchant'
+    form.currency_code = 'Currency code'
+    assert_equal sample_params.keys, @form_builder.keys
+    sample_params.each do |key, value|
+      assert_equal value, @form_builder[key]
+    end
+  end
+
+end

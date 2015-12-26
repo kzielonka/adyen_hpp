@@ -1,0 +1,20 @@
+require 'minitest/autorun'
+require 'adyen_hpp'
+
+class AdyenHppPaymentFieldsPaymentAmountFieldTest < Minitest::Test
+  def setup
+    @field = AdyenHpp::PaymentFields::PaymentAmountField
+  end
+  
+  def test_field_name
+    assert_equal :payment_amount, @field.field_name
+  end
+
+  def test_converting_float_value
+    assert_equal 525, @field.convert(5.25)
+  end
+
+  def test_converting_integer_value
+    assert_equal 1234, @field.convert(1234)
+  end
+end

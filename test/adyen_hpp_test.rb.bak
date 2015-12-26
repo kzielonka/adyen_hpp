@@ -1,0 +1,10 @@
+require 'minitest/autorun'
+require 'adyen_hpp'
+
+class AdyenHppTest < Minitest::Test
+  def test_a_test
+    x = AdyenHpp::Input.new
+    x.payment_amount = 1000
+    assert_equal 1, 1
+  end
+end
