@@ -3,13 +3,14 @@ class AdyenHpp
     @skins_secrets = skins_secrets
   end
 
-  def self.form &config_block
+  def self.form(&config_block)
     form = AdyenHpp::Form.new
     form.configure(&config_block)
     form.generate_html
   end
 
-  def self.url
+  def self.url(&config_block)
+
   end
 end
 

@@ -63,11 +63,13 @@ class AdyenHppPaymentFieldsTest < Minitest::Test
   end
 
   def test_initialization
-    payment_fields = AdyenHpp::PaymentFields.new(payment_amount: 50,
-                                                 skin_code: 'code')
-    assert_equal 50, payment_fields[:payment_amount]
-    assert_equal 'code', payment_fields[:skin_code]
-    assert_equal nil, payment_fields[:issuer_id]
+    payment_fields = AdyenHpp::PaymentFields.new(
+      payment_amount: 50,
+      skin_code: 'code'
+    )
+    assert_equal 50, payment_fields[:payment_amount].convert
+    assert_equal 'code', payment_fields[:skin_code].convert
+    assert_equal nil, payment_fields[:issuer_id].convert
   end
 
   def test_error_rasing_on_setting_undefined_field
