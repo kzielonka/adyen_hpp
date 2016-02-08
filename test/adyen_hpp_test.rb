@@ -18,7 +18,7 @@ class AdyenHppTest < Minitest::Test
       form.session_validity = Time.new(2016, 2, 3, 0, 12, 32, 1)
     end
     expected_result = <<-HTML
-      <form>
+      <form action="https://live.adyen.com/hpp/select.shtml" accept-charset="UTF-8" method="post">
         <input type="hidden" name="currencyCode" value="EUR">
         <input type="hidden" name="merchantAccount" value="Account">
         <input type="hidden" name="merchantReference" value="ORDER-12345">
@@ -27,6 +27,7 @@ class AdyenHppTest < Minitest::Test
         <input type="hidden" name="sessionValidity" value="2016-02-03T00:12:32+00:00">
         <input type="hidden" name="shipBeforeDate" value="2016-02-02T00:26:00+00:00">
         <input type="hidden" name="skinCode" value="SkInCoDe">
+        <input type="submit">
       </form>
     HTML
     assert_equal expected_result.gsub(/^\s+/, '').gsub(/\s$/, '').delete("\n"), result
