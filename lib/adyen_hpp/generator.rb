@@ -38,12 +38,12 @@ class AdyenHpp
       @payment_fields.merchant_sig = merchant_signature
     end
 
-    def generate_html
+    def generate
       builder = @builder_class.new
       @payment_fields.each do |field|
         builder.add_field field.adyen_field_name, field.convert unless field.not_set?
       end
-      builder.to_html
+      builder.build
     end
   end
 end

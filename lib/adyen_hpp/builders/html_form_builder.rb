@@ -7,11 +7,8 @@ class AdyenHpp
           @value = value
         end
 
-        attr_reader :name
-        attr_reader :value
-
         def to_html
-          "<input type=\"hidden\" name=\"#{name}\" value=\"#{value}\">"
+          "<input type=\"hidden\" name=\"#{@name}\" value=\"#{@value}\">"
         end
       end
 
@@ -23,7 +20,7 @@ class AdyenHpp
         @inputs << HtmlInput.new(name, value)
       end
 
-      def to_html
+      def build
         form_tag do
           @inputs.collect(&:to_html).join
         end
