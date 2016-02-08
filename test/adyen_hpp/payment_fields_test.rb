@@ -19,7 +19,7 @@ class AdyenHppPaymentFieldsTest < Minitest::Test
     currencyCode issuerId merchantAccount merchantReference
     merchantReturnData merchantSig offerEmail offset orderData
     paymentAmount resURL sessionValidity shipBeforeDate
-    shopperLocale shopperReferrence shopperStatement skinCode
+    shopperLocale shopperReference shopperStatement skinCode
   ).each do |field_name|
     define_method "test_adyen_field_#{field_name}_is_defined" do
       assert AdyenHpp::PaymentFields.has_adyen_field? field_name
@@ -31,11 +31,27 @@ class AdyenHppPaymentFieldsTest < Minitest::Test
     currency_code issuer_id merchant_account merchant_reference
     merchant_return_data merchant_sig offer_email offset order_data
     payment_amount res_url session_validity ship_before_date
-    shopper_locale shopper_referrence shopper_statement skin_code
+    shopper_locale shopper_reference shopper_statement skin_code
   ).each do |field_name|
     define_method "test_field_#{field_name}_is_defined" do
-      assert AdyenHpp::PaymentFields.has_field? field_name
+      assert AdyenHpp::PaymentFields.has_field?(field_name)
     end
+
+    define_method "test_respond_to_#{field_name}" do
+      assert @payment_fields.respond_to?(field_name)
+    end
+
+    define_method "test_respond_to_#{field_name}=" do
+      assert @payment_fields.respond_to?("#{field_name}=")
+    end
+  end
+
+  def test_respond_to_returns_false
+    refute @payment_fields.respond_to? :invalid_method_name
+  end
+
+  def test_respond_to_each
+    assert @payment_fields.respond_to? :each
   end
 
   def test_field_undefinedField_is_not_defined
@@ -47,15 +63,13 @@ class AdyenHppPaymentFieldsTest < Minitest::Test
   end
 
   def test_initialization
-    payment_fields = AdyenHpp::PaymentFields.new({
-      payment_amount: 50,
-      skin_code: 'code'
-    })
+    payment_fields = AdyenHpp::PaymentFields.new(payment_amount: 50,
+                                                 skin_code: 'code')
     assert_equal 50, payment_fields[:payment_amount]
     assert_equal 'code', payment_fields[:skin_code]
     assert_equal nil, payment_fields[:issuer_id]
   end
-  
+
   def test_error_rasing_on_setting_undefined_field
     assert_raises ArgumentError do
       @payment_fields[:undefined_field] = 5

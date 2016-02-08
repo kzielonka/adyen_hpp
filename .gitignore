@@ -1,1 +1,3 @@
-adyen_hpp-0.0.1.gem
+*.gem
+/doc
+/.yardoc

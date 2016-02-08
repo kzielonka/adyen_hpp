@@ -6,7 +6,7 @@ class AdyenHppPaymentFieldsCurrencyCodeFieldTest < Minitest::Test
     @class = AdyenHpp::PaymentFields::CurrencyCodeField
     @field = @class.new
   end
-  
+
   def test_field_name
     assert_equal 'currency_code', @class.field_name
   end
@@ -25,8 +25,22 @@ class AdyenHppPaymentFieldsCurrencyCodeFieldTest < Minitest::Test
     assert_equal 'EUR', @field.convert
   end
 
-  def test_validation_missing
+  def test_validation_missing_value
     @field.set nil
     refute @field.valid?
+  end
+
+  def test_validation_not_existing_code
+    AdyenHpp::Dependencies.instance.currencies.stub :exists?, false do
+      @field.set 'not existing code'
+      refute @field.valid?
+    end
+  end
+
+  def test_validation_for_valid_value
+    AdyenHpp::Dependencies.instance.currencies.stub :exists?, true do
+      @field.set 'eur'
+      assert @field.valid?
+    end
   end
 end
