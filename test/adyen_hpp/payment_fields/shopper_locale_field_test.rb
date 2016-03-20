@@ -3,12 +3,6 @@ require 'adyen_hpp'
 require 'object_without_to_s'
 
 class AdyenHppPaymentFieldsShopperLocaleField < Minitest::Test
-  class ObjectWithoutToS
-    def respond_to?(_, _=nil)
-      false
-    end
-  end
-
   def setup
     @class = AdyenHpp::PaymentFields::ShopperLocaleField
     @field = @class.new

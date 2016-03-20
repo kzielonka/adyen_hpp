@@ -5,20 +5,19 @@ class AdyenHpp
     class BlockedMethodsField < AdyenHpp::PaymentFields::Base
       def convert
         return nil if @value.nil?
-        Array(@value).map(&convert_array_item).join(',')
+        Array(@value).map(&method(:convert_array_item)).join(',')
       end
 
       private
 
-      def convert_array_item
-        proc do |item|
-          if item.respond_to? :to_str
-            item.to_str
-          elsif item.is_a? Symbol
-            item.to_s
-          else
-            raise TypeError, 'invalid type'
-          end
+      def convert_array_item(item)
+        p item
+        if item.respond_to? :to_str
+          item.to_str
+        elsif item.is_a? Symbol
+          item.to_s
+        else
+          raise TypeError, 'invalid type'
         end
       end
 
@@ -31,7 +30,6 @@ class AdyenHpp
         end
         errors_aggregator
       end
-
     end
   end
 end
