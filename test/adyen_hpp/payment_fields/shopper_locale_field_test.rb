@@ -4,7 +4,7 @@ require 'object_without_to_s'
 
 class AdyenHppPaymentFieldsShopperLocaleField < Minitest::Test
   class ObjectWithoutToS
-    def respond_to? _
+    def respond_to?(_, _=nil)
       false
     end
   end
