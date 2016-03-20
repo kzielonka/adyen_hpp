@@ -8,15 +8,23 @@ require 'adyen_hpp/payment_fields.rb'
 require 'adyen_hpp/generator.rb'
 
 class AdyenHpp
-  def self.form(&config_block)
-    form = AdyenHpp::Generator.new Builders::HtmlFormBuilder
-    form.configure(&config_block)
-    form.generate
-  end
+  class << self
+    def form(&config_block)
+      builder = Builders::HtmlFormBuilder
+      configure_and_generate(builder, &config_block)
+    end
 
-  def self.redirection_url(&config_block)
-    form = AdyenHpp::Generator.new Builders::RedirectionUrlBuilder
-    form.configure(&config_block)
-    form.generate
+    def redirection_url(&config_block)
+      builder = Builders::RedirectionUrlBuilder
+      configure_and_generate(builder, &config_block)
+    end
+
+    private
+
+    def configure_and_generate(builder, &config_block)
+      generator = AdyenHpp::Generator.new(builder)
+      generator.configure(&config_block)
+      generator.generate
+    end
   end
 end

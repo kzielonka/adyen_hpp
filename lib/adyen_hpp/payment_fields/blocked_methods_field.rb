@@ -11,7 +11,6 @@ class AdyenHpp
       private
 
       def convert_array_item(item)
-        p item
         if item.respond_to? :to_str
           item.to_str
         elsif item.is_a? Symbol

@@ -1,7 +1,7 @@
 class AdyenHpp::Dependencies
-  include Singleton
-
-  def currencies
-    @currencies ||= AdyenHpp::Currencies.new
+  class << self
+    def currencies
+      @currencies ||= AdyenHpp::Currencies.new
+    end
   end
 end

@@ -19,6 +19,6 @@ class AdyenHpp::PaymentFields::CurrencyCodeField < AdyenHpp::PaymentFields::Base
   end
 
   def currencies
-    AdyenHpp::Dependencies.instance.currencies
+    AdyenHpp::Dependencies.currencies
   end
 end

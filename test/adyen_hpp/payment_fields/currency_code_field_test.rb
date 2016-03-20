@@ -31,14 +31,14 @@ class AdyenHppPaymentFieldsCurrencyCodeFieldTest < Minitest::Test
   end
 
   def test_validation_not_existing_code
-    AdyenHpp::Dependencies.instance.currencies.stub :exists?, false do
+    AdyenHpp::Dependencies.currencies.stub :exists?, false do
       @field.set 'not existing code'
       refute @field.valid?
     end
   end
 
   def test_validation_for_valid_value
-    AdyenHpp::Dependencies.instance.currencies.stub :exists?, true do
+    AdyenHpp::Dependencies.currencies.stub :exists?, true do
       @field.set 'eur'
       assert @field.valid?
     end
