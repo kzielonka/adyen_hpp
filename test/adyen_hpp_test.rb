@@ -67,4 +67,10 @@ class AdyenHppTest < Minitest::Test
       end
     end
   end
+
+  def test_raise_error_on_missing_block
+    assert_raises AdyenHpp::MissingBlockError do
+      AdyenHpp.form
+    end
+  end
 end

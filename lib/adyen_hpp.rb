@@ -8,6 +8,8 @@ require 'adyen_hpp/payment_fields.rb'
 require 'adyen_hpp/generator.rb'
 
 class AdyenHpp
+  MissingBlockError = Class.new(StandardError)
+
   class << self
     def form(&config_block)
       builder = Builders::HtmlFormBuilder
@@ -22,9 +24,14 @@ class AdyenHpp
     private
 
     def configure_and_generate(builder, &config_block)
+      raise_missing_block_error if config_block.nil?
       generator = AdyenHpp::Generator.new(builder)
       generator.configure(&config_block)
       generator.generate
+    end
+
+    def raise_missing_block_error
+      raise MissingBlockError, 'Configuration block is required.'
     end
   end
 end
