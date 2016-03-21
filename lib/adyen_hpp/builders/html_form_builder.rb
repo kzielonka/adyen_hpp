@@ -1,6 +1,9 @@
 class AdyenHpp
   module Builders
     class HtmlFormBuilder
+      Config = Struct.new(:adyen_url)
+      DEFAULT_ADYEN_URL = 'https://live.adyen.com/hpp/select.shtml'
+
       class HtmlInput
         def initialize(name, value)
           @name = name
@@ -14,6 +17,7 @@ class AdyenHpp
 
       def initialize(config)
         @inputs = []
+        @config = config
       end
 
       def add_field(name, value)
@@ -27,13 +31,13 @@ class AdyenHpp
       end
 
       def self.new_config
-        nil
+        Config.new(DEFAULT_ADYEN_URL)
       end
 
       private
 
       def url
-        'https://live.adyen.com/hpp/select.shtml'
+        @config.adyen_url || DEFAULT_ADYEN_URL
       end
 
       def form_tag

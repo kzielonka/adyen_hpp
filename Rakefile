@@ -8,7 +8,7 @@ end
 desc 'Imports currencies file'
 task import_currencies: :environment do
   AdyenHpp::Currencies::CurrenciesFile.import
-  AdyenHpp::Currencies.new.load
+  AdyenHpp::Currencies.new.load_currencies
 end
 
 Rake::TestTask.new do |t|
