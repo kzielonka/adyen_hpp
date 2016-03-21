@@ -13,27 +13,33 @@ require 'forwardable'
 class AdyenHpp
   include Singleton
 
+  MissingBuilderError = Class.new(StandardError)
   MissingBlockError = Class.new(StandardError)
   ValidationError = Class.new(StandardError)
 
   def form(&config_block)
     builder = Builders::HtmlFormBuilder
-    configure_and_generate(builder, &config_block)
+    build(builder, &config_block)
   end
 
   def redirection_url(&config_block)
     builder = Builders::RedirectionUrlBuilder
-    configure_and_generate(builder, &config_block)
+    build(builder, &config_block)
   end
 
-  private
-
-  def configure_and_generate(builder, &config_block)
+  def build(builder, &config_block)
+    raise_missing_builder_error if builder.nil?
     raise_missing_block_error if config_block.nil?
     generator = AdyenHpp::Generator.new(builder)
     generator.configure(&config_block)
     check_validity_of(generator.payment_fields)
     generator.generate
+  end
+
+  private
+
+  def raise_missing_builder_error
+    raise MissingBuilderError, 'Builder is required.'
   end
 
   def raise_missing_block_error
@@ -52,6 +58,6 @@ class AdyenHpp
 
   class << self
     extend Forwardable
-    def_delegators :instance, :form, :redirection_url
+    def_delegators :instance, :build, :form, :redirection_url
   end
 end

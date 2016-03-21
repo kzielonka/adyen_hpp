@@ -65,6 +65,12 @@ class AdyenHppTest < Minitest::Test
     end
   end
 
+  def test_raise_error_on_missing_builder
+    assert_raises AdyenHpp::MissingBuilderError do
+      AdyenHpp.build(nil)
+    end
+  end
+
   def test_raise_error_on_missing_block
     assert_raises AdyenHpp::MissingBlockError do
       AdyenHpp.form
