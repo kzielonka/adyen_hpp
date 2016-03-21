@@ -2,10 +2,6 @@ require 'minitest/autorun'
 require 'adyen_hpp'
 
 class AdyenHppTest < Minitest::Test
-  def setup
-    @adyen_hpp = AdyenHpp.new
-  end
-
   def test_building_form
     result = AdyenHpp.form do |form|
       form.hmac_key = 'afdasdfdasfads'

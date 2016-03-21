@@ -13,5 +13,6 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'adyen_hpp_hmac_calculator', '~> 0.0.2', '>= 0.0.2'
 
-  s.add_development_dependency 'rake', '~> 1.8', '>= 1.0.0'
+  s.add_development_dependency 'rake', '~>10.4', '>= 10'
+  s.add_development_dependency 'yard', '~>0.8.7', '>= 0.8'
 end

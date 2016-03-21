@@ -1,4 +1,5 @@
 require 'rake/testtask'
+require 'yard'
 
 task :environment do
   $LOAD_PATH.unshift File.expand_path('./lib/', File.dirname(__FILE__))
@@ -14,6 +15,10 @@ end
 Rake::TestTask.new do |t|
   t.libs << 'test'
   t.test_files = FileList['test/**/*_test.rb']
+end
+
+YARD::Rake::YardocTask.new do |t|
+  t.files = ['lib/**/*.rb']
 end
 
 desc 'Run tests'
