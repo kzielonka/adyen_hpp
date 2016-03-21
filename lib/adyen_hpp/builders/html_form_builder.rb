@@ -12,7 +12,7 @@ class AdyenHpp
         end
       end
 
-      def initialize
+      def initialize(config)
         @inputs = []
       end
 
@@ -24,6 +24,10 @@ class AdyenHpp
         form_tag do
           @inputs.collect(&:to_html).join
         end
+      end
+
+      def self.new_config
+        nil
       end
 
       private

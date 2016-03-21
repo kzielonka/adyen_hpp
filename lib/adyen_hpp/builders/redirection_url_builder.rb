@@ -3,20 +3,28 @@ require 'uri'
 class AdyenHpp
   module Builders
     class RedirectionUrlBuilder
-      def initialize
+      Config = Struct.new(:adyen_url)
+      DEFAULT_ADYEN_URL = 'http://adyen.com'
+
+      def initialize(config)
         @params = []
+        @config = config
       end
+
+      attr_reader :config
 
       def add_field(name, value)
         @params << [name, value]
       end
 
       def build
-        URI::HTTP.build(
-          host: 'adyen.com',
-          path: '/asfas',
-          query: encode_params
-        ).to_s
+        uri = URI.parse(@config.adyen_url)
+        uri.query = encode_params
+        uri.to_s
+      end
+
+      def self.new_config
+        Config.new(DEFAULT_ADYEN_URL)
       end
 
       private

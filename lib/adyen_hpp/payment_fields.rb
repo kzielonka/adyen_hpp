@@ -46,7 +46,11 @@ class AdyenHpp
     alias_method :[], :get
 
     def valid?
-      @fields.collect(&:valid?).reduce(:&)
+      @fields.values.collect(&:valid?).reduce(:&)
+    end
+
+    def validation_errors
+      @fields.values.collect(&:validation_errors)
     end
 
     def each

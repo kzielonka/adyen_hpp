@@ -20,7 +20,7 @@ class AdyenHpp
         end
       end
 
-      def validate errors_aggregator
+      def validate(errors_aggregator)
         return errors_aggregator if @value.nil?
         if can_not_convert?
           errors_aggregator.add self, 'invalid type'

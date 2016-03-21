@@ -34,32 +34,33 @@ class AdyenHppTest < Minitest::Test
   end
 
   def test_building_redirection_url
-    result = AdyenHpp.redirection_url do |form|
-      form.hmac_key = 'afdasdfdasfads'
-      form.merchant_reference = 'ORDER-12345'
-      form.payment_amount = 55.54
-      form.currency_code = :eur
-      form.ship_before_date = Time.new(2016, 2, 2, 0, 26, 0, 1)
-      form.skin_code = 'SkInCoDe'
-      form.merchant_account = 'Account'
-      form.session_validity = Time.new(2016, 2, 3, 0, 12, 32, 1)
+    result = AdyenHpp.redirection_url do |config|
+      config.hmac_key = 'afdasdfdasfads'
+      config.merchant_reference = 'ORDER-12345'
+      config.payment_amount = 55.54
+      config.currency_code = :eur
+      config.ship_before_date = Time.new(2016, 2, 2, 0, 26, 0, 1)
+      config.skin_code = 'SkInCoDe'
+      config.merchant_account = 'Account'
+      config.session_validity = Time.new(2016, 2, 3, 0, 12, 32, 1)
+      config.adyen_url = 'http://www.adyen.com'
     end
     expected_result = <<-HTML
-      http://www.test
-        &currencyCode=EUR
+      http://www.adyen.com
+        ?currencyCode=EUR
         &merchantAccount=Account
         &merchantReference=ORDER-12345
-        &merchantSig=y5xM8bw2pR6CBqD7vWvAqyGeq3KYK9bREmVCTBLU9tM=
+        &merchantSig=y5xM8bw2pR6CBqD7vWvAqyGeq3KYK9bREmVCTBLU9tM%3D
         &paymentAmount=5554
-        &sessionValidity=2016-02-03T00:12:32+00:00
-        &shipBeforeDate=2016-02-02T00:26:00+00:00
+        &sessionValidity=2016-02-03T00%3A12%3A32%2B00%3A00
+        &shipBeforeDate=2016-02-02T00%3A26%3A00%2B00%3A00
         &skinCode=SkInCoDe
     HTML
     assert_equal expected_result.gsub(/^\s+/, '').gsub(/\s$/, '').delete("\n"), result
   end
 
   def test_building_invalid_form
-    assert_raises ArgumentError do
+    assert_raises AdyenHpp::ValidationError do
       AdyenHpp.form do |form|
         form.hmac_key = 'asfasfafd'
         form.payment_amount = 55.54
