@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    adyen_hpp_hmac_calculator (0.0.2)
+    rake (10.5.0)
+    yard (0.8.7.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  adyen_hpp_hmac_calculator (~> 0.0.2)
+  rake (~> 10.4)
+  yard (~> 0.8.7)
+
+BUNDLED WITH
+   1.11.2
