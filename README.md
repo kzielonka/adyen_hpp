@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kzielonka/adyen_hpp.svg?branch=master)](https://travis-ci.org/kzielonka/adyen_hpp)
+
 # Adyen HPP
 Ruby gem for generating Adyen HPP payment HTML POST form and redirection URL.
 It creates form/url with all needed data and calculated signature.
