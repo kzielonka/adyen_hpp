@@ -10,6 +10,33 @@ require 'adyen_hpp/generator.rb'
 require 'singleton'
 require 'forwardable'
 
+# Generates Adyen HPP form and redirection URL.
+# @example Generating form:
+#
+#   AdyenHpp.form do |config|
+#     config.hmac_key = 'f32kf943hfaaj4wg'
+#     config.merchant_reference = 'MODEL-1'
+#     config.payment_amount = 5553
+#     config.currency_code = :eur
+#     config.ship_before_date = Time.new(2020, 1, 1, 0, 0, 0)
+#     config.skin_code = 'skin-code'
+#     config.merchant_account = 'Account'
+#     config.session_validity = Time.new(2019, 1, 1, 0, 0, 0)
+#   end
+#
+# @example Generating redirection url:
+#
+#   AdyenHpp.redirection_url do |config|
+#     config.hmac_key = 'f32kf943hfaaj4wg'
+#     config.merchant_reference = 'MODEL-1'
+#     config.payment_amount = 5553
+#     config.currency_code = :eur
+#     config.ship_before_date = Time.new(2020, 1, 1, 0, 0, 0)
+#     config.skin_code = 'skin-code'
+#     config.merchant_account = 'Account'
+#     config.session_validity = Time.new(2019, 1, 1, 0, 0, 0)
+#     config.hmac_key = 'f2ff4fsf'
+#   end
 class AdyenHpp
   include Singleton
 
@@ -17,16 +44,22 @@ class AdyenHpp
   MissingBlockError = Class.new(StandardError)
   ValidationError = Class.new(StandardError)
 
+  # Generates payment form.
   def form(&config_block)
     builder = Builders::HtmlFormBuilder
     build(builder, &config_block)
   end
 
+  # Generates payment URL.
   def redirection_url(&config_block)
     builder = Builders::RedirectionUrlBuilder
     build(builder, &config_block)
   end
 
+  # Generates payment data with custom builder.
+  #
+  # @param builder [Object] must be object with defined
+  #   #add_field(name, value) and #build methods.
   def build(builder, &config_block)
     raise_missing_builder_error if builder.nil?
     raise_missing_block_error if config_block.nil?
