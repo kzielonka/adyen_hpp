@@ -1,5 +1,4 @@
 require 'net/http'
-require 'nokogiri'
 require 'adyen_hpp/currencies/currencies_file.rb'
 require 'adyen_hpp/currencies/parser.rb'
 

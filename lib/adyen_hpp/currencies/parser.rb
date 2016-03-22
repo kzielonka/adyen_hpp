@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 class AdyenHpp::Currencies
   class Parser
     def parse_from_string(str)
